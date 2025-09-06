@@ -5,6 +5,8 @@ import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/entities/user.entity';
+import { UserResponseDto } from 'src/users/dto/user-response.dto';
+import { AuthResponseDto } from './dto/authResponse.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -25,22 +27,18 @@ export class AuthService {
 
     const access_token = await this.generateJwt(user);
     // remove password from user
-    const { password: _, ...result } = user;
-    return {
-      msg: 'Login successful',
-      user: result,
-      access_token: access_token,
-    };
+    // const { password: _, ...result } = user;
+    return new AuthResponseDto('Login successful', access_token, user);
   }
 
   async register(registerDto: RegisterDto) {
     const user = await this.usersService.create(registerDto);
     const access_token = await this.generateJwt(user);
 
-    return { msg: 'Registration successful', user, access_token };
+    return new AuthResponseDto('Register successful', access_token, user);
   }
 
-  private async generateJwt(user: Omit<User, 'password'>) {
+  private async generateJwt(user: UserResponseDto) {
     const payload = { sub: user.id, email: user.email, name: user.name };
     const access_token = await this.jwtService.signAsync(payload);
     return access_token;
