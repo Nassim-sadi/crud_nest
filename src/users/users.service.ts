@@ -47,11 +47,12 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    return new UserResponseDto(user);
   }
 
-  findByEmail(email: string) {
+  async findByEmail(email: string) {
     return this.usersRepository.findOne({ where: { email } });
   }
 

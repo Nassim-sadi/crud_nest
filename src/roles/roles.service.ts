@@ -11,7 +11,6 @@ export class RolesService {
   ) {}
 
   async onModuleInit() {
-    console.log('RolesService.onModuleInit');
     await this.seedRoles();
   }
   create(createRoleDto: CreateRoleDto) {
