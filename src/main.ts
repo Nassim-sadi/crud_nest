@@ -6,7 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
-  const frontendUrl = configService.get<string>('FRONTEND_URL');
+  const rawUrls = configService.get<string>('FRONTEND_URL') || '';
+  const frontendUrls = rawUrls.split(',').map((url) => url.trim());
   // Enable validation globally
   app.useGlobalPipes(
     new ValidationPipe({
@@ -17,7 +18,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: frontendUrl, // your frontend URL
+    origin: frontendUrls, // your frontend URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // if you use cookies
   });

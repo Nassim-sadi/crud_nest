@@ -8,6 +8,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -34,6 +35,11 @@ export class UsersController {
   //find current user
   @Get('/me')
   findCurrentUser(@Request() req) {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      throw new BadRequestException('User ID is missing');
+    }
     return this.usersService.findOne(req.user.id);
   }
 
