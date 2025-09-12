@@ -1,3 +1,4 @@
+import { ActivityLog } from 'src/activity-log/entities/activity-log.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import {
   Entity,
@@ -6,6 +7,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('users')
@@ -27,6 +29,9 @@ export class User {
 
   @ManyToOne(() => Role, (role) => role.users, { eager: true })
   role: Role;
+
+  @OneToMany(() => ActivityLog, (log) => log.user)
+  activityLogs: ActivityLog[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -7,6 +7,9 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { PostsModule } from './posts/posts.module';
+import { ActivityLogModule } from './activity-log/activity-log.module';
+import { LocationUpdateModule } from './location-update/location-update.module';
+import { ShipmentsModule } from './shipments/shipments.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -28,6 +31,10 @@ import { PostsModule } from './posts/posts.module';
     AuthModule,
     RolesModule,
     PostsModule,
+    ActivityLogModule,
+    ShipmentsModule,
+    LocationUpdateModule,
+    ShipmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
