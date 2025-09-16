@@ -8,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('users')
@@ -25,7 +26,7 @@ export class User {
   name: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  status: boolean;
 
   @ManyToOne(() => Role, (role) => role.users, { eager: true })
   role: Role;

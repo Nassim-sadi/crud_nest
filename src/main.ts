@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { EmptyToUndefinedPipe } from './common/pipes/empty-to-undefined.pipe';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
@@ -10,6 +11,7 @@ async function bootstrap() {
   const frontendUrls = rawUrls.split(',').map((url) => url.trim());
   // Enable validation globally
   app.useGlobalPipes(
+    new EmptyToUndefinedPipe(),
     new ValidationPipe({
       whitelist: true, // strips properties not in DTO
       forbidNonWhitelisted: true, // throws error if extra props exist
